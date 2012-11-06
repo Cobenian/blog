@@ -44,6 +44,8 @@
     padding-top: 5px;
     margin-bottom: 0;
     font-style: italic;
+    color: white;
+    text-decoration: none;
 }
 
 .welcome {
@@ -209,13 +211,18 @@ li {
     margin-bottom: 15px;
 }
 
-a {
+a.link_in_header, a.link_in_footer {
+    text-decoration: none;
+    font-size: 16px;
+}
+
+a.body_link {
     font-size: 22px;
     text-decoration: none;
     color: rgba(0,103,219, 1.0);
 }
 
-a:hover, a:active {
+a.body_link:hover, a.body_link:active, a.link_in_header:hover, a.link_in_header:active, a.link_in_footer:hover, a.link_in_footer:active {
     color: rgba(236,76,41, 0.8);
 }
 
