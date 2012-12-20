@@ -1,0 +1,203 @@
+// You custom settings file to override Foundation defaults
+@import "settings";
+
+// Comment out this import if you are customizing you imports below
+@import "foundation";
+
+// ----------------------------------------
+// Import specific parts of Foundation by commenting the import "foundation"
+// and uncommenting what you want below. You must uncomment the following if customizing
+
+// @import "compass/css3";
+// @import "foundation/settings";
+// @import "foundation/functions/all";
+
+// Control which mixins you have access too
+
+// @import "foundation/mixins/clearfix";
+// @import "foundation/mixins/css-triangle";
+// @import "foundation/mixins/font-size";
+
+// Must include next two for semantic grid to work
+
+// @import "foundation/mixins/respond-to";
+// @import "foundation/mixins/semantic-grid";
+
+// @import "modular-scale";
+// @import "foundation/common/globals";
+
+// Must include the grid for any responsiveness
+
+// @import "foundation/components/grid";
+
+// Control which common styles get compiled
+
+// @import "foundation/common/typography";
+// @import "foundation/common/forms";
+
+// Control which components you get if customizing
+
+// @import "foundation/components/modules/buttons";
+// @import "foundation/components/modules/tabs";
+// @import "foundation/components/modules/ui";
+// @import "foundation/components/modules/topbar";
+// @import "foundation/components/modules/navbar";
+// @import "foundation/components/modules/orbit";
+// @import "foundation/components/modules/reveal";
+// @import "foundation/components/modules/offcanvas";
+
+h2.title {
+  color: $mainColor;
+  padding-right: 20px;
+  background: white;
+  display: inline-block;
+
+  &:after {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    width: $rowWidth - ($columnGutter * 2);
+    margin: 0 $columnGutter;
+    height: 1px;
+    background: $secondaryColor;
+    content: '';
+    z-index: -100;
+  }
+}
+
+.top-bar {
+  height: $topBarHeight;
+  background-color: $topBarBgColor;
+  text-decoration: none;
+  #navs {
+    .name {
+      margin-top: 10px;
+      padding-left: 15px;
+      height: $topBarHeight - 10px;
+      .logo {
+        background: url('../img/logo.png') left top no-repeat;
+        font-family: 'Open Sans', sans-serif;
+        display: block;
+        height: $topBarHeight - 10px;
+        line-height: 68px;
+        padding-left: 78px;
+        color: $ltBlueColor;
+        font-size: 38px;
+        font-weight: 100;
+      }
+    }
+  }
+
+  ul > li a:not(.button) {
+    padding: 0 20px;
+    font-size: 16px;
+  }
+}
+
+section#header {
+  height: 500px;
+  margin-top: 0;
+  margin-bottom: 30px;
+  background: url(../img/servers.jpg) center bottom no-repeat;
+  .bubble {
+    margin: 80px 0;
+    background: rgba(0, 0, 0, .45);
+  }
+}
+
+section#mobileheader {
+  margin-top: 0;
+  background: rgba(0, 0, 0, .65);
+}
+
+.bubble {
+  padding: 20px;
+
+
+  h1 {
+    color: $mainColor;
+  }
+  h4 {
+    color: white;
+  }
+}
+
+section#expertise, section#ourteam, section#about, section#contact {
+  padding: 20px 0;
+}
+
+
+section#about {
+  h4.subheader {
+    color: #333;
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+}
+
+section#expertise {
+  //background-color: $blueColor;
+  background: url("../img/blue.png") top left;
+  -webkit-box-shadow: inset 0px 5px 5px rgba(0, 0, 0, 0.15), inset 0px -5px 5px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: inset 0px 5px 5px rgba(0, 0, 0, 0.15), inset 0px -5px 5px rgba(0, 0, 0, 0.15);
+  box-shadow: inset 0px 5px 5px rgba(0, 0, 0, 0.15), inset 0px -5px 5px rgba(0, 0, 0, 0.15);
+
+  color: white;
+
+  h2, h4 {
+    color: white;
+  }
+
+  a {
+    color: white;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+section#ourteam {
+  .person {
+    text-align: center;
+
+    h4 {
+      margin-bottom: 4px;
+    }
+    h5 {
+      margin-top: 0;
+    }
+  }
+}
+
+section#contact {
+  background-color: #eee;
+
+  ul {
+    list-style: none;
+    li {
+      vertical-align: top;
+    }
+  }
+
+  .thankyou {
+    color: $blueColor;
+    margin: 15px 0;
+    font-size: 20px;
+  }
+  .sorry {
+    color: $alertColor;
+    margin: 15px 0;
+    font-size: 20px;
+  }
+}
+
+footer {
+  background-color: $topBarBgColor;
+  color: white;
+  padding: 20px 0;
+  border-top: solid 1px ($topBarBgColor + 30);
+  .ccby {
+    color: #777;
+    text-align: center;
+  }
+}
