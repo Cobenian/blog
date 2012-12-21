@@ -1,91 +1,146 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
 
-    <link rel="stylesheet" type="text/css" href="stylesheets/reset.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/960.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/style.css" media="screen" />
-    <link href='http://fonts.googleapis.com/css?family=Give+You+Glory' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,700italic,400,700' rel='stylesheet' type='text/css'>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if IE 8]> <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
 
-    <title>Cobenian Blog</title>
-  </head>
+<head>
+	<meta charset="utf-8" />
 
-  <body>
+	<!-- Set the viewport width to device width for mobile -->
+	<meta name="viewport" content="width=device-width" />
 
-    <div class="yellowish">
-        <div class="container_12 theheader">
-            <a href="http://www.cobenian.com">
-                <div class="grid_6">
-                    <span>
-                        <img src="images/cobenian_logo.png" width="102px;" height="100px"/>
-                    </span>
-                    <div style="width: 240px; vertical-align: bottom; display: inline-block;">
-                        <span class="logo">obenian</span>
-                        <div class="slogan">Software crafted for your network</div>
-                    </div>
-                </div>
-            </a>
-            <div class="grid_6 header_links">
-                <span class="prefix_3 alpha grid_3 header_phone">(703) 828 - 5180</span>
+	<title>Cobenian - Network Related Software Development</title>
 
-                <span class="prefix_3 alpha grid_3 header_link" ><a class="link_in_header" href="http://www.twitter.com/cobenian">@cobenian</a></span>
+    <link rel="icon" type="image/png" href="images/cobenian_logo.png">
 
-                <span class="prefix_3 alpha grid_3 header_link" ><a class="link_in_header" href="mailto:info@cobenian.com">info@cobenian.com</a></span>
+	<!-- Included CSS Files -->
+	<link rel="stylesheet" href="stylesheets/app.css">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+
+	<script src="javascripts/foundation/modernizr.foundation.js"></script>
+
+</head>
+<body>
+
+    <div class="contain-to-grid">
+        <nav class="top-bar">
+            <ul id="navs">
+                <li class="name"><a class="logo" href="http://www.cobenian.com">obenian</a></li>
+                <li class="toggle-topbar"><a href="#"></a></li>
+            </ul>
+            <section>
+                <ul class="right">
+                    <li><a href="http://blog.cobenian.com">Blog</a></li>
+                    <li><a href="http://www.cobenian.com#about">About</a></li>
+                    <li><a href="http://www.cobenian.com#expertise">Expertise</a></li>
+                    <li><a href="http://www.cobenian.com#ourteam">Our Team</a></li>
+                    <li><a href="http://www.cobenian.com#contact">Contact Us</a></li>
+                </ul>
+            </section>
+        </nav>
+    </div>
+
+    <section id="blog">
+        <div class="row">
+            <div class="twelve columns">
+                <h2 class="title">Blog</h2>
             </div>
-            <div class="clear"></div>
         </div>
-    </div>
+        <div class="row">
+            <div class="twelve columns">
+                <p style="margin: 20px 0 40px 0;">You'll find all sorts of technical information on software development related to DNS, routing, devops and more here. Don't get too attached to any programming language however; we'll cover Java, Clojure, Node.js, Go, Python, Ruby, and probably quite a few more as time goes by.</p>
 
-    <div class="container container_12" style="min-height: 600px;">
-      <section class="grid_12" id="main_content">
-        <h1>Blog</h1>
+                <h3 class="title">Slides from DevIgnition <p>December 20, 2012</p></h3>
 
-<p>You'll find all sorts of technical information on software development related to DNS, routing, devops and more here. Don't get too attached to any programming language however; we'll cover Java, Clojure, Node.js, Go, Python, Ruby, and probably quite a few more as time goes by.</p>
-
-<h2>Lame DNS testing <p>November 5, 2012</p></h2>
-
-<p>Be sure to check out a preview of <a class="body_link" href="http://lame.cobenian.com">lame.cobenian.com</a>. It is currently under active development. You can read our definition of lame in the <a class="body_link" href="http://www.cobenian.com/documentation/lame.html">documentation</a>.</p>
-
-<h2>Secure route origination <p>November 1, 2012</p></h2>
-
-<p>If you would like to learn more about what you can do to help secure BGP routing on the Internet, check out our <a class="body_link" href="http://www.cobenian.com/documentation/rpki.html">RPKI documentation</a>. We also offer a free RPKI browser that allows you to view the essential information inside the X509 certificates, CRLs, manifests and ROAs that can be found in an RPKI repository. It can be found at <a class="body_link" href="http://rpki.cobenian.com">rpki.cobenian.com</a>. This is a bare bones application that was developed in under 24 hours. More features will be added over time.</p>
-
-<h2>Our home <p>October 15, 2012</p></h2>
-
-<p>And of course, don't forget about <a class="body_link" href="http://www.cobenian.com">www.cobenian.com</a>. </p>
-      </section>
-    </div>
-
-
-    <div class="yellowish">
-        <div class="container_12 thefooter">
-            <div class="grid_4 header_links">
-                <span class="alpha grid_3 footer_link" ><a class="link_in_footer" href="http://www.twitter.com/cobenian">@cobenian</a></span>
+                <p>Slides from the Golang talk can be found at <a href="http://www.cobenian.com/presentations/GoogleGoRevamped.pdf">Safer Systems Programming with Google Go</a>. The first half covers BGP and how Syria was taken offline recently. The second half covers how we might model BGP in Go.</p>
             </div>
-            <div class="grid_4 header_links">
-                <span class="alpha grid_3 footer_phone" style="padding-top: 10px;">(703) 828 - 5180</span>
-            </div>
-            <div class="grid_4 header_links">
-                <span class="alpha grid_3 header_link" ><a class="link_in_footer" href="mailto:info@cobenian.com">info@cobenian.com</a></span>
-            </div>
-            <div class="clear"></div>
         </div>
-    </div>
+        <div class="row">
+            <div class="twelve columns">
+                <h3 class="title">Speaking at DevIgnition <p>November 6, 2012</p></h3>
 
-              <script type="text/javascript">
-            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-          </script>
-          <script type="text/javascript">
-            try {
-              var pageTracker = _gat._getTracker("UA-35979617-1");
-            pageTracker._trackPageview();
-            } catch(err) {}
-          </script>
+                <p>On December 7th, Cobenian founder Bryan Weber will be speaking at <a href="http://www.devignition.com">DevIgnition</a> on "Safer Systems Programming with Google Go". Be sure to sign up today!</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="twelve columns">
+                <h3 class="title">Lame DNS testing <p>November 5, 2012</p></h3>
 
-  </body>
+                <p>Be sure to check out a preview of <a class="body_link" href="http://lame.cobenian.com">lame.cobenian.com</a>. It is currently under active development. You can read our definition of lame in the <a class="body_link" href="http://www.cobenian.com/documentation/lame.html">documentation</a>.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="twelve columns">
+                <h3 class="title">Secure route origination <p>November 1, 2012</p></h3>
+
+                <p>If you would like to learn more about what you can do to help secure BGP routing on the Internet, check out our <a class="body_link" href="http://www.cobenian.com/documentation/rpki.html">RPKI documentation</a>. We also offer a free RPKI browser that allows you to view the essential information inside the X509 certificates, CRLs, manifests and ROAs that can be found in an RPKI repository. It can be found at <a class="body_link" href="http://rpki.cobenian.com">rpki.cobenian.com</a>. This is a bare bones application that was developed in under 24 hours. More features will be added over time.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="twelve columns">
+                <h3 class="title">Our home <p>October 15, 2012</p></h3>
+
+                <p>And of course, don't forget about <a class="body_link" href="http://www.cobenian.com">www.cobenian.com</a>. </p>
+            </div>
+        </div>
+    </section>
+
+
+    <footer>
+        <div class="row">
+            <div class="six columns">
+                &copy; 2012 Cobenian
+            </div>
+            <div class="six columns ccby">
+                Server Rack Photo &copy; 2007 Micha Elmueller
+            </div>
+        </div>
+    </footer>
+
+    <!-- Included JS Files (Uncompressed) -->
+	<script src="javascripts/foundation/jquery.js"></script>
+	
+	<script src="javascripts/foundation/jquery.foundation.reveal.js"></script>
+	
+	<script src="javascripts/foundation/jquery.event.move.js"></script>
+
+	<script src="javascripts/foundation/jquery.foundation.topbar.js"></script>
+
+	<script src="javascripts/foundation/jquery.event.swipe.js"></script>
+	
+	<script src="javascripts/foundation/jquery.cookie.js"></script>
+	
+	<script src="javascripts/foundation/jquery.foundation.navigation.js"></script>
+	
+	<script src="javascripts/foundation/jquery.foundation.mediaQueryToggle.js"></script>
+	
+	<script src="javascripts/foundation/jquery.placeholder.js"></script>
+
+    <script src="javascripts/scroll.js"></script>
+
+    <script src="javascripts/app.js"></script>
+
+
+  <!-- Application Javascript, safe to override -->
+  <script src="javascripts/foundation/app.js"></script>
+
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-34436269-1']);
+        _gaq.push(['_setDomainName', 'cobenian.com']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+    </script>
+
+</body>
 </html>
