@@ -2,46 +2,59 @@
 
 <!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
 <!--[if IE 8]> <html class="no-js lt-ie9" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en" xmlns="http://www.w3.org/1999/html"> <!--<![endif]-->
 
 <head>
-	<meta charset="utf-8" />
+    <meta charset="utf-8" />
 
-	<!-- Set the viewport width to device width for mobile -->
-	<meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width" />
 
-	<title>Cobenian - Network Related Software Development</title>
+    <title>Cobenian - Software Development for Data Science</title>
 
     <link rel="icon" type="image/png" href="images/cobenian_logo.png">
 
-	<!-- Included CSS Files -->
-	<link rel="stylesheet" href="stylesheets/app.css">
+    <link rel="stylesheet" href="stylesheets/app.css">
+    <link rel="stylesheet" href="stylesheets/logo.css">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
 
-	<script src="javascripts/foundation/modernizr.foundation.js"></script>
+    <script src="javascripts/foundation/modernizr.foundation.js"></script>
 
 </head>
 <body>
 
-    <div class="contain-to-grid">
-        <nav class="top-bar">
-            <ul id="navs">
-                <li class="name"><a class="logo" href="http://www.cobenian.com">obenian</a></li>
-                <li class="toggle-topbar"><a href="#"></a></li>
-            </ul>
-            <section>
-                <ul class="right">
-                    <li><a href="http://blog.cobenian.com">Blog</a></li>
-                    <li><a href="http://www.cobenian.com#about">About</a></li>
-                    <li><a href="http://www.cobenian.com#expertise">Expertise</a></li>
-                    <li><a href="http://www.cobenian.com#ourteam">Our Team</a></li>
-                    <li><a href="http://www.cobenian.com#contact">Contact Us</a></li>
-                </ul>
-            </section>
-        </nav>
-    </div>
+<div class="contain-to-grid">
+    <nav class="top-bar">
+        <ul id="navs">
+            <li>
+                <div style="margin-top: 12px; margin-left: 15px;">
+                    <div class="cobenian-logo">
+                        <span class="circle">C <div class="triangle"></div></span>
+                    </div>
+                </div>
+            </li>
 
-    <section id="blog">
+            <li class="name"><a class="logo" href="#">obenian</a></li>
+            <li class="toggle-topbar"><a href="#"></a></li>
+        </ul>
+        <section>
+            <ul class="right">
+                <li><a href="http://www.cobenian.com/index.html#expertise">Software</a></li>
+                <li><a href="http://www.cobenian.com/index.html#about">About</a></li>
+                <li><a href="http://www.cobenian.com/index.html#ourteam">Team</a></li>
+                <li><a href="http://blog.cobenian.com">Blog</a></li>
+                <li><a href="http://www.cobenian.com/index.html#contact">Contact</a></li>
+            </ul>
+        </section>
+    </nav>
+</div>
+
+
+
+
+
+
+<section id="blog">
         <div class="row">
             <div class="twelve columns">
                 <h2 class="title">Blog</h2>
@@ -163,62 +176,71 @@
                 <p>And of course, don't forget about <a class="body_link" href="http://www.cobenian.com">www.cobenian.com</a>. </p>
             </div>
         </div>
-    </section>
+</section>
 
-    <footer>
-        <div class="row">
-            <div class="six columns">
-                &copy; 2013 Cobenian
-            </div>
-            <div class="six columns ccby">
-                Server Rack Photo &copy; 2007 Micha Elmueller
-            </div>
+
+
+
+
+
+
+
+
+<footer>
+    <div class="row">
+        <div class="six columns">
+            &copy; 2012 - 2014 Cobenian
         </div>
-    </footer>
-
-    <!-- Included JS Files (Uncompressed) -->
-	<script src="javascripts/foundation/jquery.js"></script>
-	
-	<script src="javascripts/foundation/jquery.foundation.reveal.js"></script>
-	
-	<script src="javascripts/foundation/jquery.event.move.js"></script>
-
-	<script src="javascripts/foundation/jquery.foundation.topbar.js"></script>
-
-	<script src="javascripts/foundation/jquery.event.swipe.js"></script>
-	
-	<script src="javascripts/foundation/jquery.cookie.js"></script>
-	
-	<script src="javascripts/foundation/jquery.foundation.navigation.js"></script>
-	
-	<script src="javascripts/foundation/jquery.foundation.mediaQueryToggle.js"></script>
-	
-	<script src="javascripts/foundation/jquery.placeholder.js"></script>
-
-    <script src="javascripts/scroll.js"></script>
-
-    <script src="javascripts/app.js"></script>
+    </div>
+</footer>
 
 
-  <!-- Application Javascript, safe to override -->
-  <script src="javascripts/foundation/app.js"></script>
 
-    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 
-    <script type="text/javascript">
+<!-- Included JS Files (Uncompressed) -->
+<script src="js/foundation/jquery.js"></script>
 
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-34436269-1']);
-        _gaq.push(['_setDomainName', 'cobenian.com']);
-        _gaq.push(['_trackPageview']);
+<script src="js/foundation/jquery.foundation.reveal.js"></script>
 
-        (function() {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
+<script src="js/foundation/jquery.event.move.js"></script>
 
-    </script>
+<script src="js/foundation/jquery.foundation.topbar.js"></script>
+
+<script src="js/foundation/jquery.event.swipe.js"></script>
+
+<script src="js/foundation/jquery.cookie.js"></script>
+
+<script src="js/foundation/jquery.foundation.navigation.js"></script>
+
+<script src="js/foundation/jquery.foundation.mediaQueryToggle.js"></script>
+
+<script src="js/foundation/jquery.placeholder.js"></script>
+
+<script src="js/scroll.js"></script>
+
+<script src="js/app.js"></script>
+
+
+<!-- Application Javascript, safe to override -->
+<script src="js/foundation/app.js"></script>
+
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+<script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34436269-1']);
+    _gaq.push(['_setDomainName', 'cobenian.com']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+</script>
 
 </body>
 </html>
+

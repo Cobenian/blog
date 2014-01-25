@@ -1,0 +1,100 @@
+.cobenian-logo {
+    margin: 0;
+    padding: 0;
+}
+
+.logo-text {
+    font-family: 'Varela Round', sans-serif;
+    font-weight: bold;
+    font-size: 4em;
+    color: #b3feff; /* black */
+    margin-left: 130px;
+    margin-top: -25px;
+    position: absolute;
+    left: 130px;
+    top: 20px;
+}
+
+.circle {
+    float: left;
+    display: block;
+    height: 70px;
+    width: 70px;
+    line-height: 70px;
+
+    -webkit-border-radius: 60px;
+    -moz-border-radius: 60px;
+    border-radius: 60px;
+
+    background-color: rgba(232,84,51,1);
+    color: rgba(185,255,255,1);
+    text-align: center;
+    font-size: 4em;
+    font-family: helvetica;
+    font-weight: bold;
+}
+
+@-webkit-keyframes rot {
+    from {
+        -webkit-transform:
+            rotate(0deg)
+            translate(30px)
+            rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(360deg)
+        translate(35px)
+        rotate(0deg);
+    }
+}
+
+@-webkit-keyframes slideRight {
+    from {
+        -webkit-transform: translate(0px);
+    }
+    to {
+        -webkit-transform: translate(35px);
+    }
+}
+
+@keyframes rot {
+    from {
+        transform:
+            rotate(0deg)
+            translate(30px)
+            rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg)
+        translate(35px)
+        rotate(0deg);
+    }
+}
+
+@keyframes slideRight {
+    from {
+        transform: translate(0px);
+    }
+    to {
+        transform: translate(35px);
+    }
+}
+
+.triangle {
+    width: 0px;
+    height: 0px;
+    border-style: solid;
+    border-width: 13px 20px 13px 0;
+    border-color: transparent #59c2ff transparent transparent;
+    position: relative;
+    top: -50px;
+    left: 18px;
+    -webkit-animation: slideRight 1s, rot 1s linear;
+    -webkit-animation-iteration-count: 1, 1;
+    -webkit-animation-delay: 0s, 1s;
+    -webkit-animation-fill-mode: forwards;
+    animation: slideRight 1s, rot 1s linear;
+    animation-iteration-count: 1, 1;
+    animation-delay: 0s, 1s;
+    animation-fill-mode: forwards;
+}
