@@ -45,6 +45,7 @@
             <li><a href="http://www.cobenian.com#services">Services</a></li>
             <li><a href="http://www.cobenian.com#products">Products</a></li>
             <li><a href="http://www.cobenian.com#about">About</a></li>
+            <li class="active"><a href="http://blog.cobenian.com">Blog</a></li>
             <li><a href="http://www.cobenian.com#contact">Contact</a></li>
           </ul>
         </div>
@@ -55,7 +56,7 @@
 
       <div class="blog-header">
         <h1 class="blog-title">The Cobenian Blog</h1>
-        <p class="lead blog-description">Musings on Software Development and Product Development</p>
+        <p class="lead blog-description">Musings on Software and Product Development</p>
       </div>
 
       <div class="row">
@@ -85,24 +86,24 @@
              <p>
                We started by
                sharing our work over email. It worked, but it didn't work well. Feedback was
-                spread out of dozens of emails, clients confused older versions and the latest
-                version, we couldn't tell who was viewing what and we didn't have a view of
-                the big picture.
+                spread out of dozens of emails, clients confused versions and we couldn't tell who
+                had actually taken the time to look at our work.
                We realized that we needed something better. We went looking for something
                that would solve our problem.  An open source project, a software as a service
-               product, anything. We were surprised that we couldn't find what we were looking
-               for.
+               product, anything really. We were surprised that we couldn't find what we were looking
+               for, so we decided to build something for ourselves.
              </p>
 
              <h3>The first attempt</h3>
              <p>
-               So we stood up our own nginx server. However, we couldn't have our client
-               work be public, so we configured nginx to require authentication. This worked
+               We stood up our own nginx server. We had to make sure that the
+               work we did for clients was kept private,
+               so we turned on authentication. This worked
                for a little while, but every time the client requested that someone else be
-               included or removed we had to make changes to our configuration. We had to make
-               sure that our clients work was separated from one another because we certainly
+               included or removed we had to make changes to our configuration. We had to keep
+               our work separated by client because we certainly
                didn't want to accidentally share work for one client with another client.
-               And we found, that we still had to send emails to let clients know when a new
+               We still had to put together a distribution list and send emails to let clients know when a new
                version was available. Clients couldn't keep track of their passwords so we
                were constantly resetting them. In a lot of ways, it was a step back from email
                because the administrative burden put on us was higher and clients had to ask
@@ -121,29 +122,29 @@
              <h3>Guiding Principles</h3>
              <p>
                We decided to set a few guiding principles during our architecture design phase.
-               First, this tool must make it beyond easy for our clients to use. No more
+               First, the tool must make it easy for our clients to use. Not just easy, but beyond easy. No more
                passwords for them to remember, no unzipping files and having to figure out
                what to do with the contents, no more confusion about which version was the
                newest.
              </p>
 
-             <h3>Process</h3>
+             <h3>Beyond Easy</h3>
              <p>
                In demoit.io clients receive an email when you notify them that a new version
-               is available for them to see and they click on a link to see your latest work.
+               is available and they click on a link to see your latest work.
                They have nothing else to do.
              </p>
 
              <h3>Security</h3>
              <blockquote>
                We needed it to be private, but as soon as we added passwords our clients
-               couldn't ever remember them.
+               couldn't ever seem to remember them.
              </blockquote>
              <p>
-               What about security? If the client just has to click on a link does that mean
-               that anyone can see the content?  No. Of course we use HTTPS. We also generate
-               a unique access key for every client for every notification they are sent. This
-               access key is what allows us to know whether or not the client can be trusted
+               How is a link secure? We generate
+               a unique access key for every client for every notification they are sent.
+               This
+               access key + HTTPS is what allows us to know whether or not the client can be trusted
                and what content the client should see.
              </p>
 
@@ -153,37 +154,40 @@
                tools. We don't force you to try to use demoit.io to generate your work, we just
                help you get it to your clients.
              </blockquote>
-             <p>
+             <!-- <p>
                So far, so good, but what about from the web designer's point of view? Here we
                made a critical decision, that we are not going to try to mandate how our
                clients generate their content. Do you use photoshop to design screens?  A text
                editor and you sling HTML and CSS in your first go round? Do you draw on paper
                with a pencil?  Why should we mandate how you do your work?  We shouldn't. So
                demoit.io always allows you to use your current tools to generate content.
-             </p>
+             </p> -->
 
              <p>
                Now you have your content, so what's next?  Well, we thought about lots of
-               different ways that you could get it uploaded and in front of your clients.
-               A desktop tool that sucks up your files and magically makes them get to where
+               different ways that you could get it in front of your clients.
+               <!-- A desktop tool that sucks up your files and magically makes them get to where
                they need to go? We aren't convinced that most users want to install a native
-               tool just for uploading files when the browser can already do it. So we decided
-               to have users zip up their content and upload it. So now users have a way to
-               get their content uploaded to demoit.io so it can be shared with their clients.
-               But when it is shared with the client, what exactly will the client see? How
-               will they know where to start? Just like programming languages have a "main"
+               tool just for uploading files when the browser can already do it.  -->
+               In the end we decided
+               to have users zip up their content and upload it.
+               <!-- So now users have a way to
+               get their content uploaded to demoit.io so it can be shared with their clients. -->
+               But when it is time to share your work with the client, what exactly will the client see?
+               <!-- How will they know where to start?  -->
+               Just like programming languages have a "main"
                method the web has "index.html" as its starting point. So the one requirement
-               we place upon uploaded content is that it contains a index.html file so users
-               that view the content have a place to start.
+               we place upon uploaded content is that it contains a index.html file.
+              <!-- so users that view the content have a place to start. -->
              </p>
 
              <h3>zip, click, demoed</h3>
              <p>
-               So now you can see why we say, "zip, click, demoed."  Web designers zip up their
-               content, click a button to upload the content, click a button to notify their
-               clients of the new version, the client clicks and link and the work is demoed.
+               Now you probably see why we say, "zip, click, demoed."  Web designers zip up their
+               content, click a button to upload it and click another button to notify their
+               clients. The client clicks a link and the work is demoed.
                Ok, so technically that's zip, click, click, click, demoed, but that just
-               doesn't have the same ring to it, does it?
+               doesn't have quite the same ring to it, does it now?
              </p>
 
              <p>
@@ -193,32 +197,39 @@
                most software services offer a free plan these days, but for every rule there
                is an exception. In our case, the exceptional case is security. demoit.io
                could be abused by spammers and folks who want to distribute malware via
-               malicious sites. We certainly don't want to enable these folks or be associated
+               malicious sites. We certainly don't want to enable these people or be associated
                with such activity. So we've decided that we will only support paid plans and
                we've tried to set the price point such that it disincentivizes anyone who
                would try to abuse our system in such ways.
              </p>
 
              <h3>Technology Stack</h3>
+             <p>
+               All the geeks out there want to know what we used to build demoit.io.
+               So here it is in all its glory.
+             </p>
              <ul>
-               <li>Elixir</li>
-               <li>Phoenix</li>
-               <li>Ember</li>
-               <li>REST</li>
-               <li>Bootstrap</li>
-               <li>AWS</li>
-               <li>Postgresql</li>
+               <li><a href="http://elixir-lang.org">Elixir</a></li>
+               <li><a href="http://www.phoenixframework.org">Phoenix</a></li>
+               <li><a href="http://emberjs.com">Ember</a></li>
+               <li><a href="http://getbootstrap.com">Bootstrap</a></li>
+               <li><a href="http://aws.amazon.com">AWS</a></li>
+               <li><a href="http://www.postgresql.org/">Postgresql</a></li>
+               <li><a href="http://nginx.org">Nginx</a></li>
+               <li><a href="https://stripe.com">Stripe</a></li>
              </ul>
              <p>
-               So what about the technology stack? Are we a buzzword compliant alphabet soup
-               of the latest and greatest technologies?  Actually, yes and no.  We use Ember.js
-               and Ember data to have a fast web application that consumes data via RESTFUL
-               services. And if you've ever heard of Twitter Bootstrap you can probably tell
-               that we use it as well.  For our backend, we used Phoenix, a web framework
+               <!-- So what about the technology stack? Are we a buzzword compliant alphabet soup
+               of the latest and greatest technologies?  Actually, yes and no.   -->
+               We use Ember.js
+               and Ember data to have a fast web application that consumes data via RESTful
+               services.
+               If you've ever heard of Twitter Bootstrap you can probably tell
+               that we use it as well.  For our backend, we use Phoenix, a web framework
                written in Elixir. We're huge fans of Elixir and the Erlang ecosystem that it
                is built on. In fact, we run our local Elixir meetup. We use Postgres for the
-               database and we're deployed on AWS. Was it a fun tech stack to work with? You
-               had better believe it! Ember had a learning curve and it took the most effort
+               database and we're deployed on AWS. Was it a fun tech stack to work with? You'd
+                better believe it! Ember had a learning curve and it took the most effort
                to become proficient in, but you'd be hard pressed to find a better stack
                in 2015.
             </p>
@@ -227,7 +238,7 @@
             <p>
                So there you have it.  Why we decided to build demoit.io, some of the design
                decisions we made along the way and some high level information about our
-               tech stack. We hope you'll check us out at www.demoit.io!
+               tech stack. We hope you'll check us out at <a href="https://www.demoit.io">www.demoit.io</a>!
 
             </p>
           </div>
