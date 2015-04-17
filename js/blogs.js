@@ -62,7 +62,6 @@ $( document ).ready(function() {
   'RPKI at Mozilla',
   'Speaking at NoVA Networkers',
   'Slides from DevIgnition',
-  'Lame DNS Testing',
   'Secure Route Origination',
   ];
 
