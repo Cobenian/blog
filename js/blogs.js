@@ -48,21 +48,23 @@ $( document ).ready(function() {
     }
   }
 
-  var blogs = ['Introducing demoit.io',
-  'NoVA Elixir Meetup',
-  'RRDP Draft RFC',
-  'Speaking at BigConf',
-  'Proud Sponsor of Gophercon',
-  'Proud Sponsor of PyTennessee',
-  'Cobenian Turns 1 Year Old',
-  'Proud Sponsor of Clojure Conj',
-  'Proud Sponsor of Monitorama',
-  'Cobenian at NANOG 57',
-  'Slides from NoVA Networkers',
-  'RPKI at Mozilla',
-  'Speaking at NoVA Networkers',
-  'Slides from DevIgnition',
+  var blogs = [
   'Secure Route Origination',
+  'Slides from DevIgnition',
+  'Speaking at NoVA Networkers',
+  'RPKI at Mozilla',
+  'Slides from NoVA Networkers',
+  'Cobenian at NANOG 57',
+  'Proud Sponsor of Monitorama',
+  'Proud Sponsor of Clojure Conj',
+  'Cobenian Turns 1 Year Old',
+  'Proud Sponsor of PyTennessee',
+  'Proud Sponsor of Gophercon',
+  'Speaking at BigConf',
+  'RRDP Draft RFC',
+  'NoVA Elixir Meetup',
+  'Introducing demoit.io',
+  'Elixir Mastery class May 28-29',
   ];
 
   showBlog = function()
@@ -72,7 +74,7 @@ $( document ).ready(function() {
     var blogName = getBlogByName(blog);
     if ( blogName === undefined )
     {
-      blogName = 'blog_0';
+      blogName = 'blog_' + (blogs.length -1);
     }
     loadBlog(blogName);
   }
@@ -83,7 +85,7 @@ $( document ).ready(function() {
     var blogName = getBlogByName(blog);
     if ( blogName === undefined )
     {
-      blogName = 'blog_0';
+      blogName = 'blog_' + (blogs.length -1);
     }
     loadBlog(blogName);
   });
