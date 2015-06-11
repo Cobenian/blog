@@ -65,6 +65,7 @@ $( document ).ready(function() {
   'NoVA Elixir Meetup',
   'Introducing demoit.io',
   'Elixir Mastery class May 28-29',
+  'Why is Elixir pattern matching special?',
   ];
 
   showBlog = function()

@@ -13,6 +13,7 @@
 
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/monokai_sublime.css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -62,6 +63,318 @@
       <div class="row">
 
         <div class="col-sm-8 blog-main">
+
+          <div class="blog-post blog_16">
+            <h2 class="blog-post-title">Why is Elixir pattern matching special?</h2>
+            <p class="blog-post-meta">June 10, 2015 by <a href="https://www.twitter.com/brweber2">Bryan</a></p>
+
+            <p>
+            Perhaps by now you've heard that Elixir is the next big thing? Or maybe you think it is just the latest fad,
+            but either way it has some truly interesting features that will be new to you if you've only ever done
+            Object Oriented Programming (or only programmed in Java, Ruby, C#, Python, PHP, and JavaScript).
+            </p>
+
+            <p>
+              Years ago I had a conversation with <a href="https://twitter.com/jsuereth">Josh Suereth</a>
+              at a conference and we compared pattern matching in Scala and Erlang.
+              It was a really fun conversation and in it I made the assertion that
+              Erlang's pattern matching was more powerful than Scala's. Josh asked
+              how that could be given that Scala provides an API that enables
+              the developer to determine what the match behavior should be!
+              I frankly was unable to explain it at the time which to me was a
+              sign that while I was perhaps on to something, <b><em>I didn't yet understand
+              it well enough to articulate it</em></b>.
+            </p>
+
+            <p>
+              Many years have passed and in the last several months I have taken
+              a deep dive into Elixir because of my previous interest in Erlang.
+              I also took some time to study Prolog since that conversation
+              and now I finally feel like I can explain why pattern matching is so
+              powerful and this blog post attempts to express my thoughts. This
+              post is starting to get a little long, so I've left out a <i>ton</i>
+              of details at every turn, but I tried to hit on the major points here.
+            </p>
+
+            <br/><br/>
+            <h2>By the power of Prolog...</h2>
+
+            <p>
+              The early implementations of Erlang were written in Prolog, so
+              some uses of Prolog semantics shine through in Erlang and Elixir
+              to this day.  Pattern matching is one such case.
+            </p>
+
+            <p>
+              In order to begin to appreciate pattern matching you have to understand
+              what it has to offer and what it is good for.  Pattern matching in
+              Erlang and Elixir is more than the de-structuring you'll find in
+              other programming languages like Scala and Clojure.
+            </p>
+
+            <br/>
+            <h3>Some uses of pattern matching</h3>
+            <ul>
+              <li>"assignment"</li>
+              <li>assertions</li>
+              <li>de-structuring</li>
+              <li>smarter case statements</li>
+              <li>removing conditionals</li>
+            </ul>
+
+            <p>So let's look at each one in turn before we try to draw some
+              conclusions based on the big picture.
+            </p>
+
+            <br/><br/>
+            <h3>The "how can I make this true?" operator...</h3>
+            <h4>a.k.a. "assignment"</h4>
+            <p>
+              We recently taught a two day Elixir class at Living Social in Washington D.C.
+              (Don't worry, we're going to offer it again this fall if you missed it! Follow
+              <a href="https://twitter.com/elixirmastery">Elixir Mastery</a> to learn more when we finalize the details
+              over the next few weeks.)
+              One of the first things we covered is that '=' appears to work
+              just like assignment in other programming languages, but upon closer
+              inspection it is not at all the same.
+            </p>
+
+            <p>
+              In Elixir the '=' operator does <b>NOT</b> assign the value on the right
+              hand side to the variable on the left hand side.  Instead it attempts
+              to unify the left hand side and right hand side into a statement that
+              is true. This means that
+
+              <pre><code class="elixir">
+x = 3
+              </code></pre>
+
+              should not be read as "set the value of x to 3" but instead you can think of it
+              as "how can I make this statement true?"  Well, one way to that this
+              statement can be true is if x has the value 3. So let's set the
+              value to 3.
+            </p>
+
+            <p>
+              At first glance, this appears to be a useless parlor trick and of
+              no real significance, but let's dig in a little deeper now.
+            </p>
+
+            <br/><br/>
+            <h3>assertions</h3>
+
+            <p>
+              One thing that many developers new to Elixir find odd is that the
+              following code works.
+
+              <pre><code class="elixir">
+3 = x
+              </code></pre>
+
+              If you've only ever worked with the likes of Java, Ruby or JavaScript
+              then this may seem odd to you.  However, if you remember what the '='
+              operator means, you'll see that as long as the value of x is 3
+              then this statement will be true.
+            </p>
+
+            <p>
+              So what exactly happens when the value of x is not 3?  The TL;DR
+              version is that a MatchError is thrown.  That means that I can use
+              this pattern to assert certain expected states in my program. Concise,
+              but is it really that much better than an explicit call to 'assert'
+              in a program?  I think that it would be hard to argue that case
+              convincingly. So this is nice, but let's keep moving through
+              the various uses of pattern matching.
+            </p>
+
+            <br/><br/>
+            <h3>de-structuring</h3>
+
+            <p>
+              De-structuring allows a developer to rip apart data structures
+              and set the value of many variables at once.
+
+              <pre><code class="elixir">
+{first_name, last_name} = {"John", "Doe"}
+              </code></pre>
+
+              Again, using our "how can this statement be made true?" logic,
+              we can see that if the variable 'first_name' had the value "John"
+              and the variable 'last_name' had the value "Doe" then this
+              statement would be true. So that's exactly what Elixir does.
+            </p>
+
+            <p>
+              De-structuring is very useful for two reasons in my opinion.
+              The first is because it allows the developer to do several
+              important things in one concise step, namely dig into the parts of the data structure that we
+              care about.  But secondly, and every bit as
+              importantly, we as people have a <b>very</b> easy time understanding
+              de-structuring on an intuitive level. Typically doing several things
+              (like setting the values of multiple variables) in one step in
+              code would be confusing and tough to reason about when a bug arose.
+              However, with de-structruing that is often not the case because
+              our brains are good at recognizing patterns and we can see the
+              symmetry betweent the left hand side and right hand side.
+            </p>
+
+            <p>
+              Also really helpful is that we can do destructuring on function
+              parameters.
+
+              <pre><code class="elixir">
+def greet({first_name, last_name}) do
+  IO.puts "Hello #{first_name} #{last_name}, how are you?"
+end
+              </code></pre>
+
+              In fact, we can nest pattern matches here and we can even do this
+              convenient match as well:
+
+              <pre><code class="elixir">
+def greet(person={first_name, last_name}) do
+  IO.puts "Hello #{first_name} #{last_name}, how are you?"
+  Email.send_to(person)
+end
+              </code></pre>
+
+              Notice that in addition to the de-structuring of the tuple itself,
+              we've also used pattern matching a second time to assign the value of the
+              entire tuple itself to the variable 'person'.
+            </p>
+
+            <br/><br/>
+            <h3>smarter case statements</h3>
+
+            <p>
+              In some languages (Java in particular) you are limited in what
+              you can match on in case statements. Elixir gives you full
+              pattern matching for case statements:
+
+              <pre><code class="elixir">
+case user do
+  {first_name, nil} -> IO.puts "Last name is required."
+  {nil, last_name} -> IO.puts "First name is required."
+  u -> IO.puts "Hello #{elem(u, 1)}"
+end
+              </code></pre>
+            </p>
+
+            <br/><br/>
+            <h3>removing conditionals</h3>
+
+            <p>
+              Imagine that you have a function that is responsible for adding
+              three integers in a tuple. Easy, right?
+
+              <pre><code class="elixir">
+def triple_adder({a, b, c}) do
+  a + b + c
+end
+              </code></pre>
+
+              But what if you also wanted to be able to accept a list of three
+              numbers and add them as well? In that case, we'd want something like:
+
+              <pre><code class="elixir">
+def triple_adder([a, b, c]) do
+  a + b + c
+end
+              </code></pre>
+
+              But now we have two different functions, one that takes a list
+              and one that takes a tuple.  One has to win, so let's handle
+              both in a single function.
+
+              <pre><code class="elixir">
+def triple_adder(list_or_struct) do
+  if is_list(list_or_struct) do
+    [a, b, c] = list_or_struct
+    a + b + c
+  else
+    {a, b, c} = list_or_struct
+    a + b + c
+  end
+end
+              </code></pre>
+
+              Sure, this is a contrived example, but sometimes the number of
+              nested if's becomes quite complex and we end up with messy code.
+            </p>
+
+            <p>
+              Elixir identifies functions by module, name and arity (just a fancy
+              word for the number of parameters), but you can define a function
+              in multiple pieces and the first one that matches is the one
+              that will be executed. Therefore, we can simplify the code we
+              just wrote and remove the conditional completely.
+
+              <pre><code class="elixir">
+def triple_adder({a, b, c}) do
+  a + b + c
+end
+
+def triple_adder([a, b, c]) do
+  a + b + c
+end
+              </code></pre>
+
+              Now when we call triple_adder the decision on which block will
+              execute will depend on the arguments. Again, this example is
+              very simple, but in real code this pattern removes an remarkable
+              number of conditionals from your code and leaves very short,
+              concise and readable functions in their place.
+            </p>
+
+            <p>
+              This function dispatching based on pattern matching is what makes
+              pattern matching in Elixir feel magical in my opinion and what
+              puts it ahead of simple de-structuring.
+            </p>
+
+            <p>
+              Some people will argue that this form of function dispatch is actually
+              a code smell and that all dispatching should be encapsulated in
+              types. Pattern matching can look like a glorified case statement
+              at times which would mean that every time a new type was added
+              old code would have to be re-written to account for the new type(s).
+              And in object oriented code that is the case.  However, in Elixir
+              we don't define new classes as types, the set of types is fixed
+              to what the language provides for us. Abusing structs is one case where
+              this problem can arise in Elixir, but for the vast majority of cases
+              you will simply describe the data structures you have and how
+              you will handle them. In other words, you care about the structure
+              of your data and not the type.
+            </p>
+
+            <p>
+              One final point is that this form of pattern matching changes the
+              locality of the business logic in your code. With encapsulation the
+              logic is spread out across your different type implementations (classes).
+              However, with pattern matching your logic tends to centralize
+              in the same place, where the matches occur. Depending on the
+              complexity of your code and your personal stylistic preferences,
+              you may legitimately want to have the logic in one place or spread
+              across multiple places in your code base. So I don't chalk this up
+              as a pro or a con, but rather a more nuanced 'it depends' type
+              of situation.
+            </p>
+
+            <br/><br/>
+            <h2>The end of this long blog post</h2>
+
+            <p>
+              Pattern matching in Elixir is powerful and interesting. I sometimes
+              use the analogy that pattern matching is sort of like having an AI that just knows how to do certain
+              things with your code that you don't want to have to take the time
+              to describe, but that you intuitively just know. Sort of like those
+              students who know the right answers on their math test, but who
+              can't explain exactly how or why they know the answer is correct.
+              Pattern matching is one of my all time favorite uses of Prolog,
+              it uses logic programming to help make your programming simpler!
+            </p>
+
+          </div>
 
           <div class="blog-post blog_15">
             <h2 class="blog-post-title">Elixir Mastery class May 28-29</h2>
@@ -448,6 +761,7 @@
               <li><a href="#" class="blog-link">Speaking at NoVA Networkers</a></li>
               <li><a href="#" class="blog-link">Slides from DevIgnition</a></li>
               <li><a href="#" class="blog-link">Secure Route Origination</a></li>
+              <li><a href="#" class="blog-link">Elixir Mastery class May 28-29</a></li>
             </ol>
           </div>
           <div class="sidebar-module">
@@ -505,6 +819,9 @@
       ga('send', 'pageview');
 
     </script>
+
+    <script src="js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
 
   </body>
 </html>
