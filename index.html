@@ -274,17 +274,7 @@ end
               </code></pre>
 
               But what if you also wanted to be able to accept a list of three
-              numbers and add them as well? In that case, we'd want something like:
-
-              <pre><code class="elixir">
-def triple_adder([a, b, c]) do
-  a + b + c
-end
-              </code></pre>
-
-              But now we have two different functions, one that takes a list
-              and one that takes a tuple.  One has to win, so let's handle
-              both in a single function.
+              numbers and add them as well? We might end up with something like this:
 
               <pre><code class="elixir">
 def triple_adder(list_or_struct) do
