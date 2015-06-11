@@ -311,7 +311,7 @@ end
 
               Now when we call triple_adder the decision on which block will
               execute will depend on the arguments. Again, this example is
-              very simple, but in real code this pattern removes an remarkable
+              very simple, but in real code this pattern removes a remarkable
               number of conditionals from your code and leaves very short,
               concise and readable functions in their place.
             </p>
@@ -347,11 +347,20 @@ end
               you may legitimately want to have the logic in one place or spread
               across multiple places in your code base. So I don't chalk this up
               as a pro or a con, but rather a more nuanced 'it depends' type
-              of situation.
+              of situation. Not to mention that you can use structs and protocols
+              in Elixir to get OOP like behavior when appropriate.
             </p>
 
             <br/><br/>
             <h2>The end of this long blog post</h2>
+
+            <p>
+              In my opinion it is this final case and the fact that pattern matching
+              is pervasive that sets pattern matching in Elixir
+              apart from other languages. The code I write in Elixir naturally
+              has much shorter functions and far fewer conditionals than in any
+              other programming language I've used.
+            </p>
 
             <p>
               Pattern matching in Elixir is powerful and interesting. I sometimes
