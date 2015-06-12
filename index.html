@@ -64,6 +64,282 @@
 
         <div class="col-sm-8 blog-main">
 
+          <div class="blog-post blog_17">
+            <h2 class="blog-post-title">Handing over a self contained Elixir program</h2>
+            <p class="blog-post-meta">June 12, 2015 by <a href="https://www.twitter.com/brweber2">Bryan</a></p>
+
+            <p>
+              One of the reasons for the rapid adoption of the Go programming language
+              is that it can be crossed compiled down to a set of architecture
+              specific static binaries. The deployment model for these programs
+              is often described as 'scp' because all it takes to distribute
+              the progams in a runnable state is to copy a single file. Of course, this is sometimes an
+              over simplification if there are config files, external dependencies (database anyone?),
+              etc. but for many programs the deployment model really is that simple.
+            </p>
+
+            <p>
+              Recently we wanted similar behavior for some internal development
+              tools (<b><em>this blog focuses on CLI programs</em></b>) that we're writing at Cobenian in Elixir. With some help
+              from one or two people on the #elixir-lang freenode channel we
+              were able to get it working, so we thought it might be helpful to
+              document for other folks in the community.
+            </p>
+
+            <div class="alert alert-success" role="alert">
+            The goal of this blog post is to show you how you can enable other developers
+            or sys admins to run command line tools on *nix systems without having
+            to install the Erlang virtual machine.
+            </div>
+
+            <br/><br/>
+            <div class="panel panel-primary">
+              <div class="panel-heading">The TL;DR version</div>
+              <ul class="list-group">
+                <li class="list-group-item"><a href="#mix_project">Create a mix project</a></li>
+                <li class="list-group-item"><a href="#main_function">Write your code with a main/1 function</a></li>
+                <li class="list-group-item"><a href="#exrm">Add exrm dependency</a></li>
+                <li class="list-group-item"><a href="#deps">Get the dependencies</a></li>
+                <li class="list-group-item"><a href="#release">Build the release</a></li>
+                <li class="list-group-item"><a href="#distribute">Distribute the release</a></li>
+                <li class="list-group-item"><a href="#run">Run the release</a></li>
+              </ul>
+            </div>
+
+            <div class="alert alert-danger" role="alert">
+            You must build your release on a similar platform to where it will run.
+            This means that you can't build on a Mac and run your program on Linux.
+            </div>
+
+            <br/><br/>
+            <a name="mix_project">&nbsp;</a>
+            <h2>The Details</h2>
+
+
+            <h3>Create a mix project</h3>
+            <p>
+              <pre><code class="elixir">
+mix new cli_tool
+              </code></pre>
+
+              The output should look something like:
+              <pre>
+* creating README.md
+* creating .gitignore
+* creating mix.exs
+* creating config
+* creating config/config.exs
+* creating lib
+* creating lib/cli_tool.ex
+* creating test
+* creating test/test_helper.exs
+* creating test/cli_tool_test.exs
+
+Your mix project was created successfully.
+You can use mix to compile it, test it, and more:
+
+    cd cli_tool
+    mix test
+
+Run `mix help` for more commands.
+              </pre>
+              <a name="main_function">&nbsp;</a>
+              <div>&nbsp;</div>
+            </p>
+
+            <h3>Write your code with a main/1 function</h3>
+            <p>
+              <div class="label label-default">
+                lib/cli_tool.ex
+              </div>
+              <pre><code class="elixir">
+defmodule CliTool do
+  def main(args) do
+    args |> Enum.map(&amp;print_arg/1)
+  end
+
+  def print_arg(arg) do
+    IO.puts "arg: #{arg}"
+  end
+end
+              </code></pre>
+
+              Be sure to have 1 parameter in  your main function.
+
+              <a name="exrm">&nbsp;</a>
+              <div>&nbsp;</div>
+            </p>
+
+            <h3>Add exrm dependency</h3>
+            <p>
+              <div class="label label-default">
+                mix.exs
+              </div>
+              <pre><code class="elixir">
+defp deps do
+  [{:exrm, "~> 0.17"},
+   {:relx, github: "erlware/relx"}]
+end
+              </code></pre>
+
+              <a name="deps">&nbsp;</a>
+              <div>&nbsp;</div>
+            </p>
+
+            <h3>Get the dependencies</h3>
+            <p>
+              <pre><code class="elixir">
+mix deps.get
+              </code></pre>
+
+              <a name="release">&nbsp;</a>
+              <div>&nbsp;</div>
+            </p>
+
+            <h3>Build the release</h3>
+            <p>
+              <pre><code class="elixir">
+mix release
+              </code></pre>
+
+              The release will be built under a directory called 'rel' within a
+              sub-directory named after your project. The single artifact
+              that we care about is the tar bundle in that sub-directory.
+
+              In our case that is:
+
+              <pre>
+rel/cli_tool/cli_tool-0.0.1.tar.gz
+              </pre>
+
+              <a name="distribute">&nbsp;</a>
+              <div>&nbsp;</div>
+            </p>
+
+            <h3>Distribute the release</h3>
+            <p>
+              There will be a gzip'd tar under rel/cli_tool/cli_tool-0.0.1.tar.gz.
+              The directory name and file name will be different if you used
+              a different project name and/or version.
+
+              So let's pretend we want to scp the file to dev.example.com.
+
+              <pre><code>
+scp rel/cli_tool/cli_tool-0.0.1.tar.gz developer@dev.example.com:~/
+              </code></pre>
+
+              Now, log into that machine and prepare to run our code.
+
+              <pre><code>
+ssh developer@dev.example.com
+dev.example.com$> mkdir cli_tool
+dev.example.com$> cp cli_tool-0.0.1.tar.gz cli_tool/
+dev.example.com$> cd cli_tool
+dev.example.com$> tar xvfz cli_tool-0.0.1.tar.gz
+              </code></pre>
+
+              Note that the tar bundle does <b>NOT</b> include a single directory
+              with everything in it. So you will probably want to create a new
+              directory and untar the contents there like I did above.
+
+              <a name="run">&nbsp;</a>
+              <div>&nbsp;</div>
+            </p>
+
+            <h3>Run the release</h3>
+            <p>
+              If we were to manually run our code on the command line it would
+              look like this:
+            <pre><code>
+bin/cli_tool escript lib/cli_tool-0.0.1/ebin/Elixir.CliTool.beam "foo" "bar"
+            </code></pre>
+
+            The output should look like this:
+            <pre>
+arg: foo
+arg: bar
+            </pre>
+            <p>
+
+            <br/><br/>
+            <h3>Slightly Improved</h3>
+            <p>
+
+            That's not very user friendly, so let's improve it a tad.
+
+            In your project root create a file called priv/cli_tool.sh.
+
+            <br/>
+            <div class="label label-default">
+              priv/cli_tool.sh
+            </div>
+            <pre><code>
+#!/bin/bash
+
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+
+cd $DIR
+../../../bin/cli_tool escript lib/cli_tool-0.0.1/ebin/Elixir.CliTool.beam $@
+            </code></pre>
+
+            And don't forget to make your file executable.
+
+            <pre><code>
+chmod +x priv/cli_tool.sh
+            </code></pre>
+
+            Now you can rebuild your release and re-distribute it following the
+            steps outlined above.
+
+            Then you can run the bash script and pass it arguments:
+
+            <pre><code>
+lib/cli_tool-0.0.1/priv/cli_tool.sh ARGS GO HERE
+            </code></pre>
+
+            At this point, you'll most likely want to put lib/cli_tool-0.0.1/priv
+            in your path.
+
+            </p>
+
+            <br/><br/>
+            <h3>Cleaning Up</h3>
+            <p>
+              If you need to clean out a previous release you built you can use
+              the following command prior to running 'mix release' again.
+
+              <pre><code>
+mix release.clean --implode
+              </code></pre>
+            </p>
+
+            <br/><br/>
+            <h3>Conclusion and Feedback</h3>
+            <p>
+              So this is admittedly not as convenient as having a single, static
+              binary like you get with Go. I'm also not aware of a way to cross
+              compile Elixir releases right now.
+            </p>
+
+            <p>
+              However, this isn't too bad if your team uses Macs or Linux. You
+              simply distribute a tarball to your team members, they untar it
+              and add a directory to their path.
+            </p>
+
+            <p>
+              So while this isn't perfect, it certainly is acceptable for our team
+              given that it means we get to write more tools in Elixir.
+            </p>
+
+            <p>
+              Finally, I suspect that the Elixir community will have plenty to
+              say about this process and hopefully they can make some
+              suggestions of ways to improve it.
+            </p>
+
+          </div>
+
           <div class="blog-post blog_16">
             <h2 class="blog-post-title">Why is Elixir pattern matching special?</h2>
             <p class="blog-post-meta">June 10, 2015 by <a href="https://www.twitter.com/brweber2">Bryan</a></p>
@@ -761,6 +1037,7 @@ end
               <li><a href="#" class="blog-link">Slides from DevIgnition</a></li>
               <li><a href="#" class="blog-link">Secure Route Origination</a></li>
               <li><a href="#" class="blog-link">Elixir Mastery class May 28-29</a></li>
+              <li><a href="#" class="blog-link">Why is Elixir pattern matching special?</a></li>
             </ol>
           </div>
           <div class="sidebar-module">
