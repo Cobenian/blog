@@ -66,7 +66,8 @@ $( document ).ready(function() {
   'Introducing demoit.io',
   'Elixir Mastery class May 28-29',
   'Why is Elixir pattern matching special?',
-  'Handing over a self contained Elixir program'
+  'Handing over a self contained Elixir program',
+  'Increasing Diversity in the Elixir Community'
   ];
 
   showBlog = function()
