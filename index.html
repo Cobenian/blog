@@ -78,8 +78,8 @@
             <h2>What is it?</h2>
 
             <p>
-              The raygun library helps your program capture bugs at runtime
-              and send then to <a href="https://raygun.io/">Raygun</a> for
+              The <a href="https://hex.pm/packages/raygun"><em>raygun library</em></a> helps your program capture bugs at runtime
+              and send them to <a href="https://raygun.io/">Raygun</a> for
               centralized error reporting.
             </p>
 
@@ -105,7 +105,7 @@
               the existing libraries for inspiration. We noticed that there were
               two common patterns. Errors were either captured via a Plug (and thus
               used with Phoenix) or they were captured as they were
-              logged. We decided that our Raygun library should support <i>both</i>
+              logged. We decided that our <a href="https://hex.pm/packages/raygun"><em>Raygun library</em></a> should support <i>both</i>
               types of error capture.
             </p>
 
@@ -327,6 +327,10 @@ defmodule YourApp.Router do
   # ...
 end
             </code></pre>
+
+            So yes, it really is that easy to configure your Phoenix applications
+            to send all uncaught errors to Raygun.
+
             </p>
 
             <p>
