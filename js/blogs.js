@@ -67,7 +67,8 @@ $( document ).ready(function() {
   'Elixir Mastery class May 28-29',
   'Why is Elixir pattern matching special?',
   'Handing over a self contained Elixir program',
-  'Increasing Diversity in the Elixir Community'
+  'Increasing Diversity in the Elixir Community',
+  'Building an Elixir library - Part 1'
   ];
 
   showBlog = function()

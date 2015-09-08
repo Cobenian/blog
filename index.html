@@ -64,6 +64,278 @@
 
         <div class="col-sm-8 blog-main">
 
+          <div class="blog-post blog_19">
+            <h2 class="blog-post-title">Building an Elixir library - Part 1</h2>
+            <p class="blog-post-meta">September 7, 2015 by <a href="https://www.twitter.com/brweber2">Bryan</a></p>
+
+            <p>
+              This blog details a library that we recently wrote and some of
+              the design decisions that went into the library. If you are
+              brand new to Elixir this is probably not a good blog post for you
+              to start learning Elixir.
+            </p>
+
+            <h2>What is it?</h2>
+
+            <p>
+              The raygun library helps your program capture bugs at runtime
+              and send then to <a href="https://raygun.io/">Raygun</a> for
+              centralized error reporting.
+            </p>
+
+            <p>
+              There are several competitors to Raygun, such as
+              <a href="https://bugsnag.com/">Bugsnag</a>,
+              <a href="https://www.honeybadger.io/">Honeybadger</a>,
+              <a href="https://getsentry.com">Sentry</a>,
+              <a href="https://airbrake.io/">Airbrake</a>,
+              and <a href="https://rollbar.com/">Rollbar</a> to name a few. Many
+              of these services already have Elixir libraries, however there
+              wasn't a library for Raygun yet. This blog post isn't intended
+              to sell you on Raygun vs. its competitors (although it seems like
+              an excellent service), it is intended to help
+              improve the way you write library code in Elixir.
+            </p>
+
+            <h2>How are errors captured?</h2>
+
+            <p>
+              The first question we asked ourselves when we wrote this library
+              is how did we envision using the library? We looked at some of
+              the existing libraries for inspiration. We noticed that there were
+              two common patterns. Errors were either captured via a Plug (and thus
+              used with Phoenix) or they were captured as they were
+              logged. We decided that our Raygun library should support <i>both</i>
+              types of error capture.
+            </p>
+
+            <h3>Sending errors to Raygun</h3>
+
+            <p>
+              Before we could capture errors, we needed a way to send them to
+              Raygun.  Raygun supports many programming languages out of box,
+              however Elixir is not one of them. Luckily the <a href="https://raygun.io/docs/integrations/api">Raygun REST API</a>
+              is very easy to use. It essentially has a single endpoint with "/entries".
+              Errors can be posted as JSON. Requests are secured via an API Key.
+              Successful requests will return a 202 status code. All pretty
+              standard for a web API, except maybe for the 202 status code, but
+              that just signifies that the message was accepted for processing
+              but hasn't been processed yet.
+            </p>
+
+            <p>
+              So at its heart, our library is really about the following two lines
+              of code:
+              <pre><code class="elixir">
+{:ok, resp} = HTTPoison.post(@api_endpoint &lt;&gt; "/entries", json, headers)
+%HTTPoison.Response{status_code: 202} = resp
+              </code></pre>
+
+              Notice that there is a dependency on the HTTP client library HTTPoison.
+            </p>
+
+            <p>
+              Let's break down those two lines of code. On the first line we
+              post a JSON message to a URL with details about the error, and
+              include our API key in the headers so Raygun knows that it is us
+              posting the error.
+            </p>
+
+            <p>
+              If you aren't familiar with Elixir the "@api_endpoint" is a module
+              attribute, which you can think of as a constant in this case. It
+              contains the base URL for Raygun's RESTful API.  We then concatenate the
+              string "/entries" onto the base URL using the &lt;&gt; string
+              concatentation operator.
+            </p>
+
+            <p>
+              The 'json' and 'headers' variables are both just maps of key/value data. Our
+              headers are defined immediately before the two lines of code:
+              <pre><code class="elixir">
+headers = %{
+  "Content-Type": "application/json; charset=utf-8",
+  "Accept": "application/json",
+  "User-Agent": "Elixir Client",
+  "X-ApiKey": Application.get_env(:raygun, :api_key)
+}
+              </code></pre>
+
+              We don't want our API key checked into our version control system
+              and we certainly don't want it hard coded in our library, so the
+              API key is read from the a configuration file.
+            </p>
+
+            <p>
+              We will cover the JSON data in future blog post. For now, it is only
+              important to understand the the JSON data contains information
+              about the error that occurred.
+            </p>
+
+            <p>
+              Once we post the error to Raygun, we expect it to return a tuple
+              with :ok and the HTTP response. If the error is not successfully
+              posted to Raygun a different tuple will be returned and a match
+              error will be generated at this point. If Raygun is unavailable
+              the library can't do anything other than drop the error completely.
+
+              We drop the error by spawning a process and not linking or monitoring
+              the process. If the process crashes nothing will happen. If you are
+              unfamiliar with the difference between spawn, spawn_link and spawn_monitor
+              we recommend reading the second part of <a href="https://www.manning.com/books/elixir-in-action">Elixir in Action</a>.
+              <pre><code class="elixir">
+spawn fn ->
+  {:ok, resp} = HTTPoison.post(@api_endpoint &lt;&gt; "/entries", json, headers)
+  %HTTPoison.Response{status_code: 202} = resp
+end
+              </code></pre>
+
+              This will be true if any non 202 HTTP status code is returned as well
+              because of the pattern match on the second line.
+            </p>
+
+            <h3>Programmatically report an error</h3>
+            <p>
+              The library includes the following function for reporting error messages:
+
+              <pre><code class="elixir">
+def report_message(msg, opts \\ []) do
+  msg
+  |> Raygun.Format.message_payload(opts)
+  |> Poison.encode!
+  |> send_report
+end
+              </code></pre>
+
+              It takes a string message, converts it into a map with the error
+              details, encodes it as JSON (using the Poison library) and calls
+              the send_report function which contains all the code we've
+              looked at so far. We can safely ignore the optional arguments
+              that default to an empty keyword list for now.
+            </p>
+
+            <p>
+              We still haven't seen how to generate the JSON payload for an error,
+              but now we can send an error to Raygun with a remarkably small amount of
+              code. Let's look at how we might capture an error next.
+            </p>
+
+            <h3>Captured errors as they are logged</h3>
+
+            <p>
+              Elixir's built in Logger module provide a simple extension mechanism
+              called 'backends' that enable developers to handle when
+              particular messages are logged.
+
+              <pre><code class="elixir">
+def handle_event({:error, gl, {Logger, msg, _ts, _md}}, state)
+                when node(gl) == node() do
+  Raygun.report_message msg
+  {:ok, state}
+end
+def handle_event(_data, state) do
+  {:ok, state}
+end
+              </code></pre>
+
+              Here we see that if a message is logged with :error as the first
+              element of the tuple we will pass the message to our Raygun code.
+              If anything else is logged it will simply not do anything.
+            </p>
+
+            <p>
+              We have two options to turn on our capturing errors via Logging.
+              The first way is via configuration:
+
+              <div class="label label-default">
+                config/config.exs
+              </div>
+              <pre><code class="elixir">
+config :logger,
+  backends: [:console, Raygun.Logger]
+              </code></pre>
+
+              The second way is to enable the Logger backend programmatically:
+
+              <pre><code class="elixir">
+Logger.add_backend(Raygun.Logger)
+              </code></pre>
+            </p>
+
+            <h3>Capturing errors via Plug</h3>
+
+            <p>
+              Typically Plugs are used to sequentially process an incoming HTTP request.
+              They can short circuit and not trigger the remaining plugs in the
+              pipeline, however this is not the behavior we want for our case. If a plug
+              before our plug fails, our plug is likely to be skipped. If a plug
+              after our plug fails we won't ever capture the error.
+            </p>
+
+            <p>
+              What we really want is a way to wrap every invocation in the pipeline
+              and if it fails, then pass the error to our Raygun code. This is possible
+              with a macro:
+
+              <pre><code class="elixir">
+defmacro __using__(opts) do
+  quote location: :keep do
+    @before_compile Raygun.Plug
+  end
+end
+              </code></pre>
+
+              This simply expands the following macro prior to compiling the
+              module that uses our module. Wrapping the code is slightly more
+              advanced, but it isn't very complicated. We try to run the code
+              being wrapper by calling super. If it throws an exception we catch
+              it. The first thing we do is caputre the stacktrace associated
+              with the exception. Both the exception and stacktrace are passed
+              to our Raygun code and then we re-raise the original exception
+              and stacktrace.
+
+              <pre><code class="elixir">
+defmacro __before_compile__(env) do
+  quote location: :keep do
+    defoverridable [call: 2]
+
+    def call(conn, opts) do
+      try do
+        super(conn, opts)
+      rescue
+        exception ->
+          stacktrace = System.stacktrace
+          Raygun.report_plug(conn, stacktrace, exception,
+              env: Atom.to_string(Mix.env),
+              user: Raygun.Plug.get_user(conn,
+                        unquote(Raygun.Plug.State.get)))
+          reraise exception, stacktrace
+      end
+    end
+  end
+end
+            </code></pre>
+
+            In order to enable Raygun via Plug, we have to add our macro to the
+            router (in Phoenix for example).
+
+            <pre><code class="elixir">
+defmodule YourApp.Router do
+  use Phoenix.Router
+  use Raygun.Plug
+
+  # ...
+end
+            </code></pre>
+            </p>
+
+            <p>
+              In part two we will cover how to turn an actual error into the
+              data structure that Raygun expects.
+            </p>
+
+          </div>
+
           <div class="blog-post blog_18">
             <h2 class="blog-post-title">Increasing Diversity in the Elixir Community</h2>
             <p class="blog-post-meta">August 23, 2015 by <a href="https://www.twitter.com/brweber2">Bryan</a></p>
@@ -1113,6 +1385,7 @@ end
               <li><a href="#" class="blog-link">Elixir Mastery class May 28-29</a></li>
               <li><a href="#" class="blog-link">Why is Elixir pattern matching special?</a></li>
               <li><a href="#" class="blog-link">Handing over a self contained Elixir program</a></li>
+              <li><a href="#" class="blog-link">Increasing Diversity in the Elixir Community</a></li>
             </ol>
           </div>
           <div class="sidebar-module">
