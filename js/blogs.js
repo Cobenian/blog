@@ -68,7 +68,8 @@ $( document ).ready(function() {
   'Why is Elixir pattern matching special?',
   'Handing over a self contained Elixir program',
   'Increasing Diversity in the Elixir Community',
-  'Building an Elixir library - Part 1'
+  'Building an Elixir library - Part 1',
+  '10th Anniversary!'
   ];
 
   showBlog = function()
